@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Stayaura</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        /* Animated Background */
+        body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #CBF3F0, #2EC4B6, #81F4E1, #4facfe, #6DD6DA);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stack-area {
+            width: 100%;
+            height: 300vh;
+            display: flex;
+        }
+
+        .left {
+            flex-basis: 50%;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Slight transparency */
+            border-right: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 56px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+        }
+
+        .sub-title {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .sub-title button {
+            font-size: 14px;
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .sub-title button:hover {
+            background: #0056b3;
+        }
+
+        .right {
+    flex-basis: 50%;
+    height: 100vh;
+    position: sticky;
+    top: 50px;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    align-items: flex-start;
+    padding-top: 120px;
+    box-shadow: none;  
+    border: none;
+}
+
+
+        /* Card Styling */
+        .card {
+            width: 300px;
+            height: 320px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            position: absolute;
+            transition: 0.5s ease-in-out;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* New Background Colors */
+        .card:nth-child(1) { background: linear-gradient(135deg, #ff7eb3, #ff758c); }
+        .card:nth-child(2) { background: linear-gradient(135deg, #ff9a44, #ffbe76); }
+        .card:nth-child(3) { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .card:nth-child(4) { background: linear-gradient(135deg, #32ccbc, #90f7ec); }
+
+        /* Card Text Styling */
+        .sub {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .content {
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 500;
+        }
+
+        .away {
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stack-area">
+        <div class="left">
+            <div class="title">STAYAURA</div>
+            <div class="sub-title">
+                "Find your perfect stay, whether it's a cozy retreat or a luxury escape. 
+                Relax, explore, and create unforgettable memories—all in just a few clicks!"
+                <br />
+                <button onclick="window.location.href='http://localhost:3000/listings'">Explore</button>
+            </div>
+        </div>
+        <div class="right">
+            <div class="card">
+                <div class="sub">Seamless Booking, Endless Memories!</div>
+                <div class="content">Book your ideal getaway in just a few clicks and create unforgettable moments.</div>
+            </div>
+
+            <div class="card">
+                <div class="sub">Escape to Your Dream Stay!</div>
+                <div class="content">Find the coziest and most luxurious stays tailored just for you.</div>
+            </div>
+            <div class="card">
+                <div class="sub">Where Comfort Meets Elegance!</div>
+                <div class="content">Stay in style with beautifully curated spaces that feel like home.</div>
+            </div>
+            <div class="card">
+                <div class="sub">Need Help? We’re Here for You!</div>
+                <div class="content">Have questions or need assistance? Our support team is always ready to help!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cards = document.querySelectorAll(".card");
+        let stackArea = document.querySelector(".stack-area");
+
+        function rotateCards() {
+            let angle = 0;
+            cards.forEach((card, index) => {
+                if (card.classList.contains("away")) {
+                    card.style.transform = `translateY(-120vh) rotate(-48deg)`;
+                } else {
+                    card.style.transform = `rotate(${angle}deg)`;
+                    angle -= 10;
+                    card.style.zIndex = cards.length - index;
+                }
+            });
+        }
+
+        rotateCards();
+
+        window.addEventListener("scroll", () => {
+            let distance = window.innerHeight * 0.5;
+            let topVal = stackArea.getBoundingClientRect().top;
+            let index = -1 * (topVal / distance + 1);
+            index = Math.floor(index);
+
+            for (let i = 0; i < cards.length; i++) {
+                if (i <= index) {
+                    cards[i].classList.add("away");
+                } else {
+                    cards[i].classList.remove("away");
+                }
+            }
+            rotateCards();
+        });
+    </script>
+
+</body>
+</html>

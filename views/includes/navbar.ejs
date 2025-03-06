@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-custom sticky-top">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="/">
+            <img src="/logo3.png" alt="Logo" height="40">
+        </a>
+
+        <!-- Mobile menu toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-add" href="/listings/new">+ Add</a>
+                </li>
+            </ul>
+
+            <!-- Rightmost Dropdown -->
+            <div class="dropdown">
+                <button class="btn user-menu" id="dropdownToggle">
+                    <span class="menu-icon">☰</span>
+                </button>
+                <ul class="dropdown-menu custom-dropdown" id="dropdownMenu">
+
+                    <% if (!currUser) { %>
+                        <li><a class="dropdown-item" href="/login">Login</a></li>
+                        <li><a class="dropdown-item" href="/signup">Signup</a></li>
+                    <% } else { %>
+                        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+                    <% } %>
+                    
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownToggle = document.getElementById("dropdownToggle");
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        const menuIcon = document.querySelector(".menu-icon");
+
+        dropdownToggle.addEventListener("click", function (event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle("show");
+
+            // Rotate the menu icon on click
+            menuIcon.classList.toggle("rotate");
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove("show");
+                menuIcon.classList.remove("rotate");
+            }
+        });
+    });
+</script>

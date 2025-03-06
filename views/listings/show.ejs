@@ -1,0 +1,107 @@
+<%- layout("./layouts/boilerplate.ejs") %>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<!-- Animated Background -->
+<div class="animated-bg d-flex flex-column min-vh-100">
+    <div class="container mt-4 flex-grow-1">
+        <div class="row mt-3">
+            <!-- Left Section (Listing Details) -->
+            <div class="col-md-6 listing-card">
+                <div class="title "><%= listing.title %></div>
+                <div class="details">
+                    <p> Listed by: <b><%= listing.owner.username %></b></p>
+                    <p><%= listing.description %></p>
+                    <p><strong>Location:</strong> <%= listing.location %>, <%= listing.country %></p>
+                </div>
+                <div class="price">
+                    &#8377; <%= typeof listing.price === 'number' ? listing.price.toLocaleString("en-IN") : listing.price %>
+                </div>
+                
+                <!-- Edit & Delete Buttons -->
+               <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+                <div class="d-flex gap-2 mt-3">
+                    <a href="/listings/<%= listing._id %>/edit" class="edit-btn button2">Edit</a>
+                    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                        <button type="submit" class="delete-btn button2">Delete</button>
+                    </form>
+                </div>
+                <% } %>
+           
+                <!-- Booking Form -->
+                <form action="/confirm" method="GET" class="booking-form mt-3">
+                    <div class="mb-2 small-date-container">
+                        <label for="checkIn" class="form-label">Check-in:</label>
+                        <input type="date" id="checkIn" name="checkIn" class="form-control" required>
+                    </div>
+                    <div class="mb-2 small-date-container">
+                        <label for="checkOut" class="form-label">Check-out:</label>
+                        <input type="date" id="checkOut" name="checkOut" class="form-control" required>
+                    </div>
+                    
+                    <input type="hidden" name="title" value="<%= listing.title %>">
+                    <input type="hidden" name="location" value="<%= listing.location %>">
+                    <input type="hidden" name="country" value="<%= listing.country %>">
+                    <input type="hidden" name="price" value="<%= listing.price %>">
+                    
+                    <button type="submit" class="btn btn-success mt-2">Book Now</button>
+                </form>
+            </div>
+            <!-- Right Section (Image Card) -->
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="<%= listing.image && listing.image.url.startsWith('http') ? listing.image.url : 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600' %>" 
+                        class="listing-image" 
+                        alt="Listing Image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Section -->
+        <div class="review-section text-white p-4 rounded shadow-lg mx-auto text-center" style="max-width: 800px; background: linear-gradient(135deg, #004d40, #009688);">
+            <% if(currUser) { %>
+            <h4 class="fw-bold mb-4">Drop a Review</h4>
+            <form action="/listings/<%= listing.id %>/reviews" method="post" class="needs-validation" novalidate>
+                <div class="mb-3 mt-3 rating d-flex flex-column align-items-center">
+                    <label for="rating" class="form-label fw-bold">Rating</label>
+                    <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range w-75">
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="comment" class="form-label fw-bold">Comment</label>
+                    <textarea name="review[comment]" id="comment" rows="4" class="form-control border-0 shadow-sm" required></textarea>
+                    <div class="invalid-feedback">Please submit comments for review!</div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="button2">Submit Review</button>
+                </div>
+            </form>
+            <% } %>
+        </div>
+   
+       
+
+        <hr>
+        <!-- All Reviews Section -->
+        <div class="container mt-4">
+            <h4 class="fw-bold text-center mb-3">All Reviews</h4>
+            <div class="row justify-content-center">
+                <% for (review of listing.reviews) { %>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm" style="border: 1px solid black;">
+                            <div class="card-body">
+                                <h5 class="card-title"> :) <%= review.author.username %></h5>
+                                <p class="card-text"><%= review.comment %></p>
+                                <p class="card-rating text-warning fw-bold"><%= review.rating %> Stars</p>
+                                <form method="POST" action="/listings/<%= listing.id %>/reviews/<%= review._id %>?_method=DELETE">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
