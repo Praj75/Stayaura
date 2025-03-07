@@ -11,7 +11,7 @@ router.get("/", wrapAsync(async (req, res) => {
     res.render("listings/index.ejs", { allListings });
 }));
 
-// NEW ROUTE - Render form to create new listing
+// NEW ROUTE - create new listing
 router.get("/new", isLoggedIn,(req, res) => {
     res.render("listings/new.ejs");
 });
@@ -25,7 +25,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
         },
     }).populate("owner");
 
-    console.log("Fetched Listing:", listing); // ✅ Move logging before checking null
+    console.log("Fetched Listing:", listing); 
 
     if (!listing) {
         req.flash("error", "Listing does not exist!");
@@ -44,7 +44,7 @@ router.post("/", isLoggedIn,validateListing, wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 
-// EDIT ROUTE - Render form to edit listing
+// EDIT ROUTE - edit listing
 router.get("/:id/edit", isLoggedIn,isOwner, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
