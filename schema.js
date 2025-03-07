@@ -4,7 +4,7 @@ const review = require("./models/review");
 module.exports.listingSchema = Joi.object({
     listing: Joi.object({
         title: Joi.string().required(),
-        image: Joi.string().uri().required(), // Ensures it's a valid URL
+        image: Joi.string().uri().required(),
         description: Joi.string().required(),
         price: Joi.number().required().min(0),
         location: Joi.string().required(),
