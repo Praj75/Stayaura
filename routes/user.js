@@ -21,8 +21,8 @@ router.post("/signup", wrapAsync(async (req, res, next) => {
                 return next(err);
             }
             req.flash("success", "Welcome Broda!!");
-            const redirectUrl = req.session.redirectUrl || "/listings"; // ✅ Fixed
-            delete req.session.redirectUrl; // ✅ Clear session after redirect
+            const redirectUrl = req.session.redirectUrl || "/listings"; 
+            delete req.session.redirectUrl; 
             res.redirect(redirectUrl);
         });
     } catch (e) {
@@ -40,8 +40,8 @@ router.post("/login", saveRedirectUrl, passport.authenticate("local", {
     failureFlash: true,
 }), async (req, res) => {
     req.flash("success", "Welcome Back!!");
-    const redirectUrl = res.locals.redirectUrl || "/listings"; // ✅ Fixed
-    delete req.session.redirectUrl; // ✅ Clear session after redirect
+    const redirectUrl = res.locals.redirectUrl || "/listings";
+    delete req.session.redirectUrl;
     res.redirect(redirectUrl);
 });
 
