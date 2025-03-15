@@ -1,9 +1,8 @@
-// Load environment variables
+
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-// Import required modules
 const express = require("express");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
@@ -37,7 +36,7 @@ mongoose.connect(MONGO_URL)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Set up view engine and static files
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
@@ -48,7 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-// Session configuration
+
 const sessionOptions = {
   secret: 'mysupersecretcode',
   resave: false,
@@ -68,7 +67,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Flash messages & user data middleware
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -76,7 +75,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Use routes
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
