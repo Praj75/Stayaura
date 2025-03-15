@@ -26,8 +26,8 @@ const listingSchema = new Schema({
     },
     price: {
         type: Number,
-        required: true,   // ✅ Makes price mandatory
-        min: [1, "Price must be at least 1"]  // ✅ Ensures price is at least 1
+        required: true,
+        min: [1, "Price must be at least 1"]  
     },
     location: String,
     country: String,
