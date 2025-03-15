@@ -1,0 +1,198 @@
+<%- layout("./layouts/boilerplate.ejs") %>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #dfe9f3, #ecf2ff);
+        font-family: 'Nunito Sans', sans-serif;
+        color: #333;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .success-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .success-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(50, 50, 93, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 700px;
+        text-align: center;
+        animation: fadeInUp 0.6s ease-in-out;
+    }
+
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        color: #27ae60;
+        animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
+    }
+
+    .success-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-top: 15px;
+        color: #2c3e50;
+    }
+
+    .success-message {
+        font-size: 1rem;
+        color: #555;
+        margin-top: 10px;
+        line-height: 1.6;
+    }
+
+    .details-section {
+        margin-top: 30px;
+        text-align: left;
+    }
+
+    .details-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .details-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .details-list li {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 12px 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .details-list li strong {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .action-buttons {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .action-button {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        width: 100%;
+        text-align: center;
+    }
+
+    .action-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(41, 128, 185, 0.4);
+    }
+
+    .secondary-button {
+        background: rgba(255, 255, 255, 0.8);
+        color: #333;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .secondary-button:hover {
+        background: #d1d1d1;
+    }
+
+    @media (min-width: 768px) {
+        .success-title {
+            font-size: 2.5rem;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+        }
+
+        .details-title {
+            font-size: 1.8rem;
+        }
+
+        .action-buttons {
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .action-button {
+            width: auto;
+            padding: 14px 35px;
+        }
+    }
+</style>
+
+<div class="success-container">
+    <div class="success-card">
+        <i class="bi bi-check-circle-fill success-icon"></i>
+        <h2 class="success-title">Booking Confirmed!</h2>
+        <p class="success-message">Your payment was successful, and your booking is now confirmed.</p>
+
+        <div class="details-section">
+            <h3 class="details-title">Payment Details</h3>
+            <ul class="details-list">
+                <li><strong>Payment ID:</strong> <%= paymentDetails.paymentId %></li>
+                <li><strong>Order ID:</strong> <%= paymentDetails.orderId %></li>
+                <li><strong>Amount Paid:</strong> <%= paymentDetails.amount %> <%= paymentDetails.currency %></li>
+            </ul>
+        </div>
+
+        <div class="details-section">
+            <h3 class="details-title">Booking Details</h3>
+            <ul class="details-list">
+                <li><strong>Booking ID:</strong> <%= bookingDetails.id %></li>
+                <li><strong>Property Name:</strong> <%= bookingDetails.propertyName %></li>
+                <li><strong>Check-in:</strong> <%= bookingDetails.checkInDate %></li>
+                <li><strong>Check-out:</strong> <%= bookingDetails.checkOutDate %></li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/listings" class="action-button">Explore More Listings</a>
+            <a href="/download-receipt/<%= filename %>" class="action-button">Download Receipt</a>
+            <a href="/" class="action-button secondary-button">Go to Homepage</a>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
