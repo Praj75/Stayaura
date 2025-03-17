@@ -28,7 +28,7 @@ const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
 
 // Database connection
-const MONGO_URL = "mongodb://127.0.0.1:27017/damn";
+const MONGO_URL = process.env.MONGO_URL;
 mongoose.connect(MONGO_URL)
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log("MongoDB Connection Error:", err));
@@ -49,7 +49,7 @@ app.use(methodOverride("_method"));
 
 
 const sessionOptions = {
-  secret: 'mysupersecretcode',
+    secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
